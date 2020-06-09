@@ -1,3 +1,4 @@
+# 裸写
 class Solution():
     def bubble(self, nums):
         n = len(nums)
