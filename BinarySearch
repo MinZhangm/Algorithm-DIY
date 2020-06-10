@@ -1,0 +1,26 @@
+# 裸写二分查找,不能出错一次写成
+# 重点关注边界问题,循环体外的开闭原则,在循环体内需要严格遵守,否则就会出错
+# 计算中点: (l + r) // 2
+
+class Solution():
+    def divide(self, nums, target):
+        n = len(nums)
+        if n < 1:
+            return False
+        if n == 1:
+            return target == nums[0]
+        # 左闭右开,循环跳出条件也相应修改
+        i, j = 0, n
+        # 左闭右闭, 循环跳出条件ij相同
+        # i, j = 0, n-1
+        
+        while i < j and i < n and j <= n:
+            mid = (i+j)//2
+            if target == nums[mid]:
+                return mid
+            elif target < nums[mid]:
+                j = mid
+
+            else:
+                i = mid + 1
+        return False
