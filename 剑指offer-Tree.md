@@ -1,3 +1,12 @@
+二叉树的所有题目都是基本的型的组合和变形,基本题:
+1. 前序遍历
+2. 中序遍历
+3. 后序遍历
+4. 求深度
+5. 二叉树规范型
+
+**** 
+
 # 重建二叉树
   前序或者后序+中序，恢复二叉树。
   
@@ -36,7 +45,8 @@
   
   知识点：回溯法和浅拷贝深拷贝。
   
-# 序列化二叉树 ***
+# 序列化二叉树 ****
+
   这个题是真的恶心。结束的None的处理和结果中的None和null要匹配上。
   
 # bst第K大结点
@@ -48,6 +58,7 @@
 2. 层序遍历
 
 # 平衡二叉树
+平衡二叉树:左右子树深度差值小于1.
 1. 递归求左右子树深度，判断差值
 2. 提前结束, 维护一种特殊情况
 ```python
@@ -64,4 +75,21 @@ class Solution:
                 return -1
             return max(l, r) + 1 if abs(l-r) < 2  else -1
         return helper(root) != -1
+```
+# 二叉树的最近公共祖先 ****
+
+1. bst:按照大小递归的搜索子树
+2. 分情况讨论:都在左树返回公共祖先,右树返回None.都在右树返回公共祖先,左树返回None.左树返回左树元素,右树返回右树元素,则返回根节点为公共祖先.
+```python
+class Solution:
+    def lowestCommonAncestor(self, root: TreeNode, p: TreeNode, q: TreeNode) -> TreeNode:
+        if not root or p.val == root.val or q.val == root.val:
+            return root  # 当root为空就返回空,是其中要找的某一个节点,就返回这个节点
+        l = self.lowestCommonAncestor(root.left, p, q)
+        r = self.lowestCommonAncestor(root.right, p, q)
+        if not l:
+            return r
+        if not r:
+            return l
+        return root
 ```
