@@ -35,5 +35,33 @@
   做了一下午，检索到的路径存在path中，再将路径添加到输出结果中，后续递归改变path时，输出中的path会一同发生变化。
   
   知识点：回溯法和浅拷贝深拷贝。
-# 序列化二叉树
   
+# 序列化二叉树 ***
+  这个题是真的恶心。结束的None的处理和结果中的None和null要匹配上。
+  
+# bst第K大结点
+1. 直接中序遍历，按照index返回结果。
+2. 逆序中序遍历，提前返回。维护一个k。
+
+# 二叉树的深度
+1. 递归求左右子树的最大深度，结果+1
+2. 层序遍历
+
+# 平衡二叉树
+1. 递归求左右子树深度，判断差值
+2. 提前结束, 维护一种特殊情况
+```python
+class Solution:
+    def isBalanced(self, root: TreeNode) -> bool:
+        def helper(root):
+            if not root:
+                return 0
+            l = helper(root.left)
+            if l == -1:
+                return -1
+            r = helper(root.right)
+            if r == -1:
+                return -1
+            return max(l, r) + 1 if abs(l-r) < 2  else -1
+        return helper(root) != -1
+```
