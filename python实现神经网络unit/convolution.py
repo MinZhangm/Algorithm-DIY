@@ -1,27 +1,29 @@
 import numpy as np
 
-def main():
+def convolution():
+    input_h = 5
+    input_w = 5
+    input_channel = 3
+    output_channel = 2
     kernel_size = 3
-    in_channel = 3
-    out_channel = 1
     stride = 1
     padding = 1
-    kernel = [np.ones((1, in_channel, kernel_size, kernel_size)) for _ in range(k)]
-    
-    h = 3
-    w = 3
-    img = np.ones((1, 3, h, w)) * 2
-    input = np.zeros((1, in_channel, h+2*padding, w+2*padding))
-    input[:, :, padding:-padding, padding:-padding] = img
-    
-    output_h = int((h + 2 * padding - kernel_size) / stride)
-    output_w = int((w + 2 * padding - kernel_size) / stride)
-    output = np.zeros((1, out_channel, output_h, output_w))
-    for k in range(out_channel):
-      for i in range(0, h+2*padding - kernel_size+1, stride):
-          for j in range(0, w+2*padding - kernel_size+1, stride):
-              output[:, k, i, j] = np.sum(kernel[l]*input[:, :, i:i+kernel_size, j:j+kernel_size])
+
+    kernel = [np.ones((1, input_channel, kernel_size, kernel_size)) for _ in range(output_channel)]
+    input_img = np.ones((1, input_channel, input_h, input_w)) * 2
+    padding_img = np.zeros((1, input_channel, input_h + padding*2, input_w + 2*padding))
+    padding_img[:, :, padding:-padding, padding:-padding] = input_img
+
+    output_h = int((input_h - kernel_size + 2*padding + 1) / stride)
+    output_w = int((input_w - kernel_size + 2*padding + 1) / stride)
+    output = np.zeros((1, output_channel, output_h, output_w))
+
+    for k in range(output_channel):
+        for i in range(0, input_h + padding*2-kernel_size+1, stride):
+            for j in range(0, input_w + 2*padding-kernel_size+1, stride):
+                output[:, k, i, j] = np.sum(kernel[k] * padding_img[:, :, i:i+kernel_size, j:j+kernel_size])
     return output
 
-if __name__ == '__main__':
-    main()
+
+if __name__=='__main__':
+    convolution()
